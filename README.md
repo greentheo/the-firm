@@ -2,7 +2,8 @@
 
 **An operating model for running several coding agents on one real codebase.**
 
-Five roles, one owner, a labelled board, and seven rules. Copy `firm/` into
+Five roles, two optional ones for hardware, one owner, a labelled board, and
+seven rules. Copy `firm/` into
 your repository, replace the placeholders, and point each agent session at its
 role doc.
 
@@ -42,6 +43,28 @@ Every rule below exists because one of those happened.
 Socrates is the one people leave out and the one that pays for itself. It has
 no authority, writes no code, and only asks — which is exactly why it catches
 the thing five confident sessions agreed on.
+
+## When the work leaves the screen
+
+Two more seats, optional, for projects whose output gets built: a circuit
+board, a wiring sheet, a parts order.
+
+| Role | Turns | Into |
+|---|---|---|
+| **EE** | a circuit | a review where every component fact cites its datasheet, and a bench procedure |
+| **The bench** | a procedure with predicted values | measured values in the repo |
+
+The EE exists because an agent writes a wrong part number with the same
+confidence as a right one, and a reviewer checking the code will not catch it.
+Its one rule is *cite or do not claim*: a pinout, rating or package dimension
+names the datasheet page it came from, or the line says `NEEDS DATASHEET`.
+
+The bench is the only seat that is not an agent. No agent can measure
+anything, so every number about hardware is a model's until a person with a
+meter writes down what they saw. [`firm/BENCH.md`](firm/BENCH.md) is the
+protocol for that hand-off: each step names a quantity, a predicted value, a
+tolerance and what a miss means, and an issue waiting on a measurement closes
+on nothing else.
 
 ## The seven rules
 
@@ -99,7 +122,8 @@ Then, in `your-project/firm/README.md`:
 - Fill in **rule 6**. Do not skip it and do not make it generic; it is the one
   that decides the close calls.
 - Replace the worktree setup block — the example is Next.js and Postgres.
-- Delete roles you will not staff. Four seats work; so do two.
+- Delete roles you will not staff. Four seats work; so do two. `EE.md` and
+  `BENCH.md` are for hardware projects only.
 
 Point each agent session at `firm/README.md` and name its role.
 
@@ -110,6 +134,10 @@ Built for a real project and still running one: the live instantiation is
 same five docs with the placeholders filled in. The rules were not designed up
 front — each was written the day something went wrong that it would have
 prevented.
+
+The two hardware seats came later, from a tool that turns a circuit
+description into a routed board and a parts order, after a review found that
+every component fault in it had been caught by accident.
 
 It assumes GitHub Issues, `gh`, git worktrees, and an agent runtime where
 sessions can message each other. Nothing else.

@@ -1,6 +1,6 @@
 # The firm — {Project}'s team of agents
 
-Five roles and one owner. This file says which one you are, where your
+Five roles (plus two optional ones for hardware) and one owner. This file says which one you are, where your
 instructions live, how work moves, and what you may do without asking.
 
 **Read this first, then your role's doc, then your project's vision doc, then
@@ -17,6 +17,20 @@ belongs to one.
 | **Reviewer** | [REVIEWER.md](REVIEWER.md) | a PR → findings, numbers it re-ran, and what it couldn't check | `{project}-reviewer` |
 | **Socrates** | [SOCRATES.md](SOCRATES.md) | a design → the obvious questions nobody asked | `{project}-socrates` |
 | **Marketing** | [MARKETING.md](MARKETING.md) | what {Project} really does → honest materials that bring the right people in | `{project}-marketing` |
+
+**Two optional seats for hardware.** If what {Project} produces gets built
+(a board, a wiring sheet, a parts order), add these and keep their docs.
+Otherwise delete both files.
+
+| Role | Doc | What it turns into what | Session name (convention) |
+|---|---|---|---|
+| **EE** | [EE.md](EE.md) | a circuit → a review where every component fact cites its datasheet, and a bench procedure | `{project}-ee` |
+| **The bench** | [BENCH.md](BENCH.md) | a procedure with predicted values → measured values in the repo | the owner, not a session |
+
+With these seats there are two kinds of issue. `tool` issues change the
+software and go night shift → reviewer as usual. `design` issues change a
+circuit and are reviewed by the EE, never by the seat that wrote the change.
+`bench` issues close only when a results file with measurements is merged.
 
 **The session name is a convention, not an address.** Names can change under a
 session; resolve every address at the moment you send, and use the reference
@@ -56,7 +70,8 @@ GitHub Issues on `{owner}/{project}`, via `gh`.
 - **The issue description is the spec.** No separate spec file unless the issue links one.
 - Labels: `stage: design | questions | ready | review`, `in-progress`,
   `needs-owner`, `background` (buildable without the owner), `size: S | M | L`,
-  plus whatever areas your project has.
+  plus whatever areas your project has. With the hardware seats: `tool`,
+  `design`, `bench`.
 - `Blocked by: #NN` in an issue body is honoured: skip it while #NN is open.
 - Branch per issue: `feature/{N}-short-name`. Commits `[#N] what and why`.
   PRs say `Closes #N`.
@@ -73,6 +88,8 @@ GitHub Issues on `{owner}/{project}`, via `gh`.
 2. **Verify one level down.** If you didn't run it, don't say it checks out.
    Merged isn't deployed; a passing test you never saw fail isn't evidence;
    a summary isn't a source — read the file, run the query, open the page.
+   For a fact about a physical part, one level down is the datasheet, not
+   memory.
 3. **Make the check fail first.** A test, a grep, a content check: feed it the
    thing it exists to catch and watch it fire before trusting it to pass. A
    silent no-op looks exactly like success.
@@ -82,7 +99,8 @@ GitHub Issues on `{owner}/{project}`, via `gh`.
    the blocker.
 5. **Sign what you write.** Every seat pushes as the same account, so the first
    line of every issue comment, PR comment and PR description names the seat:
-   `— night shift`, `— reviewer`, `— Socrates`, `— foreman`, `— marketing`.
+   `— night shift`, `— reviewer`, `— Socrates`, `— foreman`, `— marketing`
+   (and `— EE` if you staff it).
 6. **{Your domain rule goes here.}** One rule naming who gets hurt if the
    software is wrong, and what is therefore never traded away. This slot is not
    decoration — it is what the other five rules are protecting. The project
